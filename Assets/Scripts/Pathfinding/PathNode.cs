@@ -18,29 +18,29 @@ public class PathNode {
         return gridPosition.ToString();
     }
 
-    public int GetGCost(){
+    public int GetGCost() {
         return gCost;
     }
-    public int GetHCost(){
+    public int GetHCost() {
         return hCost;
     }
-    public int GetFCost(){
+    public int GetFCost() {
         return fCost;
     }
 
-    public void SetGCost(int gCost){
+    public void SetGCost(int gCost) {
         this.gCost = gCost;
     }
 
-    public void SetHCost(int hCost){
+    public void SetHCost(int hCost) {
         this.hCost = hCost;
     }
 
-    public void CalculateFCost(){
+    public void CalculateFCost() {
         fCost = gCost + hCost;
     }
 
-    public void ResetCameFromPathNode(){
+    public void ResetCameFromPathNode() {
         cameFromPathNode = null;
     }
 
@@ -59,7 +59,7 @@ public class PathNode {
         return isWalkable;
     }
 
-    public void SetIsWalkable(bool isWalkable){
+    public void SetIsWalkable(bool isWalkable) {
         this.isWalkable = isWalkable;
     }
 }

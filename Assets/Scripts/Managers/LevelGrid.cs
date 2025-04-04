@@ -7,7 +7,7 @@ public class LevelGrid : MonoBehaviour {
 
     public static LevelGrid Instance { get; private set; }
 
-    public event EventHandler OnAnyUnitMovedGridPosition; 
+    public event EventHandler OnAnyUnitMovedGridPosition;
 
     [SerializeField] private Transform gridDebugObjectPrefab;
     [SerializeField] int width;
@@ -19,31 +19,31 @@ public class LevelGrid : MonoBehaviour {
     [SerializeField] Vector3 routingPositionVector3;
     [SerializeField] RoutingCoords[] routingCoords;
     private GridSystem<GridObject> gridSystem;
-    private Dictionary<Faction,GridPosition> routingCoordsDict = new Dictionary<Faction, GridPosition>();
-    
+    private Dictionary<Faction, GridPosition> routingCoordsDict = new Dictionary<Faction, GridPosition>();
+
     private void Awake() {
         if (Instance != null) {
             Debug.LogError("There's more than one LevelGrid! " + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
 
-        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) =>  new GridObject(g, gridPosition), terrainLayerMask);
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition), terrainLayerMask);
 
     }
 
     private void Start() {
         Pathfinding.Instance.Setup(width, height, cellSize);
-        
-        foreach(RoutingCoords routingCoord in routingCoords) {
+
+        foreach (RoutingCoords routingCoord in routingCoords) {
             GridPosition routingGridPosition = gridSystem.GetGridPosition(routingCoord.routingCoords);
             if (routingGridPosition == null || !gridSystem.IsValidGridPosition(routingGridPosition)) {
                 Debug.LogError($"No routing GridPosition at Vector3: {routingPositionVector3}");
                 continue;
             }
             Debug.Log(routingCoord.faction + " " + routingGridPosition);
-            routingCoordsDict.Add(routingCoord.faction,routingGridPosition);
+            routingCoordsDict.Add(routingCoord.faction, routingGridPosition);
         }
     }
 
@@ -71,7 +71,7 @@ public class LevelGrid : MonoBehaviour {
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
     public Vector3 GetWorldPosition(GridPosition gridPosition) {
         return gridSystem.GetWorldPosition(GetGridObjectGridPosition(gridPosition));
-    } 
+    }
     public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
     public int GetWidth() => gridSystem.GetWidth();
     public int GetDepth() => gridSystem.GetDepth();
@@ -95,7 +95,7 @@ public class LevelGrid : MonoBehaviour {
         gridObject.SetInteractible(interactible);
     }
 
-    public GridPosition GetGridObjectGridPosition(GridPosition gridPosition){
+    public GridPosition GetGridObjectGridPosition(GridPosition gridPosition) {
         return gridSystem.GetGridObject(gridPosition).GetGridPosition();
     }
 
@@ -103,7 +103,7 @@ public class LevelGrid : MonoBehaviour {
         int aHeight = GetGridObjectGridPosition(a).height;
         int bHeight = GetGridObjectGridPosition(b).height;
 
-        return Mathf.Abs(aHeight-bHeight);
+        return Mathf.Abs(aHeight - bHeight);
     }
 
     public GridPosition GetRoutingGridPosition(Faction faction) {

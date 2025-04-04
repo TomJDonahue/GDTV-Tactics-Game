@@ -20,7 +20,7 @@ public class UnitActionSystemUI : MonoBehaviour {
         canvasGroup = GetComponent<CanvasGroup>();
         isCanvasActive = false;
     }
-    
+
     private void Start() {
         UnitActionManager.Instance.OnSelectedUnitChanged += UnitActionManager_OnSelectedUnitChanged;
         UnitActionManager.Instance.OnSelectedActionChanged += UnitActionManager_OnSelectedActionChanged;
@@ -28,7 +28,7 @@ public class UnitActionSystemUI : MonoBehaviour {
         BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
         TurnManager.Instance.OnUnitTurnChanged += TurnManager_OnUnitTurnChanged;
 
-        
+
         CreateUnitActionButtons();
     }
 
@@ -36,7 +36,7 @@ public class UnitActionSystemUI : MonoBehaviour {
         //TODO: So here, I need to set Move, Attack, then put the special abilities into a separate context menu, then Items?, then Wait.
         // instead of placing all of the actions directly into a single list.
 
-        foreach(Transform buttonTransform in actionButtonContainerTransform) {
+        foreach (Transform buttonTransform in actionButtonContainerTransform) {
             Destroy(buttonTransform.gameObject);
         }
 
@@ -61,12 +61,12 @@ public class UnitActionSystemUI : MonoBehaviour {
     }
 
     private void CreateUnitSpecialActionButtons(Unit currentTurnUnit) {
-        foreach(BaseAction baseAction in currentTurnUnit.GetSpecialActionArray()) {
+        foreach (BaseAction baseAction in currentTurnUnit.GetSpecialActionArray()) {
             CreateButton(baseAction);
         }
     }
 
-    private void CreateUnitWaitButton (Unit currentTurnUnit) {
+    private void CreateUnitWaitButton(Unit currentTurnUnit) {
         BaseAction waitAction = currentTurnUnit.GetWaitAction();
         CreateButton(waitAction);
     }

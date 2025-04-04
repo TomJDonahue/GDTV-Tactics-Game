@@ -25,11 +25,11 @@ public class AOESpellAction : BaseAction {
     private List<Unit> targetUnitList;
 
     public override void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
-        
-        switch(state) {
+
+        switch (state) {
             case State.Charging:
                 float rotateSpeed = 10f;
                 Vector3 aimDirection = (LevelGrid.Instance.GetWorldPosition(targetGridPosition) - unit.GetWorldPosition()).normalized;
@@ -38,7 +38,7 @@ public class AOESpellAction : BaseAction {
             case State.Casting:
                 break;
             case State.Cooloff:
-                if(canCastSpell) {
+                if (canCastSpell) {
                     InstantiateEffectVFX();
                     //Should this be in take Action?
                     foreach (Unit unit in targetUnitList) {
@@ -49,8 +49,8 @@ public class AOESpellAction : BaseAction {
                 break;
         }
 
-        if (stateTimer <=0f) {
-            NextState();    
+        if (stateTimer <= 0f) {
+            NextState();
         }
     }
 
@@ -60,11 +60,11 @@ public class AOESpellAction : BaseAction {
         GameObject.Instantiate(effectVFX, LevelGrid.Instance.GetWorldPosition(targetGridPosition), Quaternion.identity);
     }
 
-    private void NextState(){
-        switch(state) {
+    private void NextState() {
+        switch (state) {
             case State.Charging:
                 OnSpellCharging?.Invoke(this, EventArgs.Empty);
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     state = State.Casting;
                     float castingStateTime = .8f;
                     stateTimer = castingStateTime;
@@ -72,7 +72,7 @@ public class AOESpellAction : BaseAction {
                 break;
             case State.Casting:
                 OnSpellCasting?.Invoke(this, EventArgs.Empty);
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     state = State.Cooloff;
                     float cooloffStateTime = .1f;
                     stateTimer = cooloffStateTime;
@@ -80,7 +80,7 @@ public class AOESpellAction : BaseAction {
                 break;
             case State.Cooloff:
                 OnSpellCooling?.Invoke(this, EventArgs.Empty);
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     ActionComplete();
                 }
                 break;
@@ -94,7 +94,7 @@ public class AOESpellAction : BaseAction {
         canCastSpell = true;
         stateTimer = .2f;
         state = State.Charging;
-        
+
         ActionStart(onActionComplete);
     }
 
@@ -103,15 +103,15 @@ public class AOESpellAction : BaseAction {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
 
-        for (int x = -maxCastDistance; x <=maxCastDistance; x++) {
-            for(int z = -maxCastDistance; z <= maxCastDistance; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x,z);
+        for (int x = -maxCastDistance; x <= maxCastDistance; x++) {
+            for (int z = -maxCastDistance; z <= maxCastDistance; z++) {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if(testDistance > maxCastDistance) continue;
+                if (testDistance > maxCastDistance) continue;
 
                 validGridPositionList.Add(testGridPosition);
             }
@@ -124,24 +124,24 @@ public class AOESpellAction : BaseAction {
         List<GridPosition> gridPositionList = new List<GridPosition>();
         List<Unit> _targetUnitList = new List<Unit>();
         EffectShape effectShape = GetEffectShape();
-        switch(effectShape) {
+        switch (effectShape) {
             case EffectShape.Circle:
-                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeCircle(gridPosition,GetEffectRange(),true));
+                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeCircle(gridPosition, GetEffectRange(), true));
                 break;
             case EffectShape.Square:
-                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeSquare(gridPosition,GetEffectRange(),true));
+                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeSquare(gridPosition, GetEffectRange(), true));
                 break;
             case EffectShape.Cross:
-                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeCross(gridPosition,GetEffectRange(),true));
+                gridPositionList.AddRange(GridPositionShapes.GetGridPositionRangeCross(gridPosition, GetEffectRange(), true));
                 break;
             case EffectShape.Single:
                 gridPositionList.Add(gridPosition);
                 break;
-                
+
         }
-        foreach(GridPosition position in gridPositionList) {
+        foreach (GridPosition position in gridPositionList) {
             Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(position);
-            if(targetUnit && unit.IsEnemy() != targetUnit.IsEnemy()) {
+            if (targetUnit && unit.IsEnemy() != targetUnit.IsEnemy()) {
                 _targetUnitList.Add(targetUnit);
             }
         }
@@ -149,7 +149,7 @@ public class AOESpellAction : BaseAction {
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
-        return new EnemyAIAction{
+        return new EnemyAIAction {
             gridPosition = gridPosition,
             actionValue = 0,
         };

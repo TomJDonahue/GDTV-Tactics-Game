@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraController : MonoBehaviour
-{
+public class CameraController : MonoBehaviour {
     private const float MIN_FOLLOW_Y_OFFSET = 2f;
-    private const float MAX_FOLLOW_Y_OFFSET = 12f;    
+    private const float MAX_FOLLOW_Y_OFFSET = 12f;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
     [SerializeField] float moveSpeed;
     bool canMoveToNewTarget = false;
@@ -37,7 +36,7 @@ public class CameraController : MonoBehaviour
     }
 
     private void HandleRotation() {
-        Vector3 rotationVector = new Vector3(0,0,0);
+        Vector3 rotationVector = new Vector3(0, 0, 0);
         rotationVector.y = InputManager.Instance.GetCameraRotateAmount();
 
         float rotationSpeed = 100f;
@@ -57,7 +56,7 @@ public class CameraController : MonoBehaviour
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         float stoppingDistance = .1f;
-        if(Vector3.Distance(transform.position, targetPosition) > stoppingDistance) {
+        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance) {
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
         } else {
             canMoveToNewTarget = false;

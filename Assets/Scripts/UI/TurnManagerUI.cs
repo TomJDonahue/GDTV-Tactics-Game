@@ -27,7 +27,7 @@ public class TurnManagerUI : MonoBehaviour {
     private void TurnManager_OnUnitTurnChanged(object sender, EventArgs e) {
         string text = "";
         int orderNumber = 1;
-        foreach(Unit unit in TurnManager.Instance.GetTurnOrderList()) {
+        foreach (Unit unit in TurnManager.Instance.GetTurnOrderList()) {
             text += orderNumber + " " + unit.name + "\n";
             orderNumber++;
         }

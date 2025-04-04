@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-public class StaminaSystem : MonoBehaviour{
+public class StaminaSystem : MonoBehaviour {
 
     public static event EventHandler OnAnyStaminaChanged;
     public event EventHandler OnStaminaDrained;
@@ -16,22 +16,22 @@ public class StaminaSystem : MonoBehaviour{
 
     public void ProcessStaminaChange(int lossAmount) {
         stamina -= lossAmount;
-        if(stamina < 0) {
+        if (stamina < 0) {
             stamina = 0;
         }
-        if(stamina > staminaMax) {
+        if (stamina > staminaMax) {
             stamina = staminaMax;
         }
         OnStaminaChanged?.Invoke(this, EventArgs.Empty);
         // OnAnyStaminaChanged?.Invoke(this,EventArgs.Empty);
-        
+
         if (stamina == 0) {
             Exhaust();
         }
     }
 
     private void Exhaust() {
-        OnStaminaDrained?.Invoke(this,EventArgs.Empty);
+        OnStaminaDrained?.Invoke(this, EventArgs.Empty);
     }
 
     public float GetStaminaNormalized() {

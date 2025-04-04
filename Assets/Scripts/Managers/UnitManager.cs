@@ -16,7 +16,7 @@ public class UnitManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
 
         unitList = new List<Unit>();
         friendlyUnitList = new List<Unit>();
@@ -30,7 +30,7 @@ public class UnitManager : MonoBehaviour {
     private void Unit_OnAnyUnitSpawned(object sender, EventArgs e) {
         Unit unit = sender as Unit;
         unitList.Add(unit);
-        if(unit.IsEnemy()) {
+        if (unit.IsEnemy()) {
             enemyUnitList.Add(unit);
         } else {
             friendlyUnitList.Add(unit);
@@ -40,11 +40,11 @@ public class UnitManager : MonoBehaviour {
     private void Unit_OnAnyUnitDead(object sender, EventArgs e) {
         Unit unit = sender as Unit;
         unitList.Remove(unit);
-        if(unit.IsEnemy()) {
+        if (unit.IsEnemy()) {
             enemyUnitList.Remove(unit);
         } else {
             friendlyUnitList.Remove(unit);
-        }        
+        }
     }
 
     public List<Unit> GetUnitList() {

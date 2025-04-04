@@ -12,14 +12,14 @@ public class UnitAnimator : MonoBehaviour {
 
     private void Start() {
         unitActionSystem = GetComponent<UnitActionSystem>();
-        foreach(BaseAction action in unitActionSystem.GetBaseActionArray()){
+        foreach (BaseAction action in unitActionSystem.GetBaseActionArray()) {
             SubscribeToAnimEvent(action, action.GetActionType());
         }
         EquipSword();
     }
 
-    private void SubscribeToAnimEvent(BaseAction action, ActionType actionType)  {
-        switch (actionType){
+    private void SubscribeToAnimEvent(BaseAction action, ActionType actionType) {
+        switch (actionType) {
             case ActionType.Movement:
                 MoveAction moveAction = action as MoveAction;
                 moveAction.OnStartMoving += MoveAction_OnStartMoving;
@@ -61,11 +61,11 @@ public class UnitAnimator : MonoBehaviour {
     private void SwordAction_OnSwordActionStarted(object sender, EventArgs e) {
         EquipSword();
         BaseAction action = sender as BaseAction;
-        
+
         animator.SetTrigger(action.GetAnimationString());
     }
 
-    private void SwordAction_OnSwordActionCompleted(object sender, EventArgs e){
+    private void SwordAction_OnSwordActionCompleted(object sender, EventArgs e) {
         // EquipRifle();
     }
 
@@ -79,7 +79,7 @@ public class UnitAnimator : MonoBehaviour {
         animator.SetBool(action.GetAnimationString(), false);
     }
 
-    private void ShootAction_OnShoot (object sender, ShootAction.OnShootEventArgs e) {
+    private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e) {
         BaseAction action = sender as BaseAction;
         animator.SetTrigger(action.GetAnimationString());
         Transform bulletProjectileTransform = Instantiate(bulletProjectilePrefab, shootPointTransform.position, Quaternion.identity);

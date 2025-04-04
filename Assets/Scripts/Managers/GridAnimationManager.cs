@@ -13,14 +13,14 @@ public class GridAnimationManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
     }
-    
+
     public void SpawnEffect(GridPosition[] gridPositionArray, ParticleSystem particleSystem) {
 
-        foreach(GridPosition gridPosition in gridPositionArray){
-            Instantiate(particleSystem,LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
+        foreach (GridPosition gridPosition in gridPositionArray) {
+            Instantiate(particleSystem, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
         }
-        
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridSystem<TGridObject>{
+public class GridSystem<TGridObject> {
 
     private LayerMask terrainLayerMask;
     private int width;
@@ -17,8 +17,8 @@ public class GridSystem<TGridObject>{
         gridObjectArray = new TGridObject[width, depth];
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < depth; z++) {
-                GridPosition gridPosition = new GridPosition(x,z);
-                gridObjectArray[x,z] = createGridObject(this, gridPosition);
+                GridPosition gridPosition = new GridPosition(x, z);
+                gridObjectArray[x, z] = createGridObject(this, gridPosition);
             }
         }
     }
@@ -31,18 +31,18 @@ public class GridSystem<TGridObject>{
         gridObjectArray = new TGridObject[width, depth];
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < depth; z++) {
-                GridPosition gridPosition = new GridPosition(x,z);
-               
+                GridPosition gridPosition = new GridPosition(x, z);
+
                 Vector3 worldPosition = GetWorldPosition(gridPosition);
                 float raycastOffsetDistance = 5f;
                 RaycastHit hit;
-                if(Physics.Raycast(worldPosition + Vector3.up * raycastOffsetDistance, Vector3.down, out hit ,raycastOffsetDistance*2,terrainLayerMask)){
+                if (Physics.Raycast(worldPosition + Vector3.up * raycastOffsetDistance, Vector3.down, out hit, raycastOffsetDistance * 2, terrainLayerMask)) {
                     //FIXME: Magic number.
-                    if(hit.point.y >= .5) {
+                    if (hit.point.y >= .5) {
                         gridPosition.UpdateGridPositionY((int)hit.point.y);
                     }
                 }
-                gridObjectArray[x,z] = createGridObject(this, gridPosition);
+                gridObjectArray[x, z] = createGridObject(this, gridPosition);
             }
         }
     }
@@ -61,7 +61,7 @@ public class GridSystem<TGridObject>{
     public void CreateDebugObjects(Transform debugPrefab) {
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < depth; z++) {
-                GridPosition gridPosition = new GridPosition(x,z);
+                GridPosition gridPosition = new GridPosition(x, z);
                 Transform debugTranform = GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
                 GridDebugObject gridDebugObject = debugTranform.GetComponent<GridDebugObject>();
                 gridDebugObject.SetGridObject(GetGridObject(gridPosition));
@@ -71,12 +71,12 @@ public class GridSystem<TGridObject>{
 
     public TGridObject GetGridObject(GridPosition gridPosition) {
         return gridObjectArray[gridPosition.x, gridPosition.z];
-    } 
+    }
 
     public bool IsValidGridPosition(GridPosition gridPosition) {
-        return gridPosition.x >= 0 && 
-        gridPosition.z >= 0 && 
-        gridPosition.x < width && 
+        return gridPosition.x >= 0 &&
+        gridPosition.z >= 0 &&
+        gridPosition.x < width &&
         gridPosition.z < depth;
     }
 

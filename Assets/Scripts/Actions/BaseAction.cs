@@ -18,13 +18,13 @@ public abstract class BaseAction {
     protected bool isActive;
     protected Action onActionComplete;
 
-    public class ActionResourceEventArgs: EventArgs {
+    public class ActionResourceEventArgs : EventArgs {
         public int resourceCost;
         public int staminaCost;
         public int resolveCost;
     }
 
-    public class BaseActionEventArgs: EventArgs {
+    public class BaseActionEventArgs : EventArgs {
         public Unit actingUnit;
     }
 
@@ -60,8 +60,8 @@ public abstract class BaseAction {
     }
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
     public abstract void Update();
-   
-    public virtual bool IsValidActionGridPosition(GridPosition gridPosition){
+
+    public virtual bool IsValidActionGridPosition(GridPosition gridPosition) {
         List<GridPosition> validGridPositionList = GetActionGridPositionRangeList();
         return validGridPositionList.Contains(gridPosition);
     }
@@ -84,7 +84,7 @@ public abstract class BaseAction {
     }
 
     public virtual Tuple<int, int> GetDamageRange() {
-        return new Tuple<int, int> (actionDataSO.GetBaseActionDamage(), actionDataSO.GetBaseActionDamage());
+        return new Tuple<int, int>(actionDataSO.GetBaseActionDamage(), actionDataSO.GetBaseActionDamage());
     }
 
     protected void ActionStart(Action onActionComplete) {
@@ -97,11 +97,11 @@ public abstract class BaseAction {
     protected int GetDamageAmount() {
         int baseDamangeAmount = actionDataSO.GetBaseActionDamage();
         float stamina = unit.GetStaminaNormalized();
-        float rollToHit = UnityEngine.Random.Range(0f,1.1f);
-        if(rollToHit > stamina) {
+        float rollToHit = UnityEngine.Random.Range(0f, 1.1f);
+        if (rollToHit > stamina) {
             return 0;
         }
-        
+
         return baseDamangeAmount;
     }
 
@@ -109,12 +109,12 @@ public abstract class BaseAction {
         isActive = false;
         onActionComplete();
         Debug.Log(this.GetActionName());
-        OnActionComplete?.Invoke(this,new ActionResourceEventArgs {
+        OnActionComplete?.Invoke(this, new ActionResourceEventArgs {
             resourceCost = GetActionResourceCost(),
             staminaCost = GetActionStaminaCost(),
             resolveCost = GetActionResolveCost()
         });
-        OnAnyActionCompleted?.Invoke(this, new BaseActionEventArgs{
+        OnAnyActionCompleted?.Invoke(this, new BaseActionEventArgs {
             actingUnit = unit
         });
     }
@@ -123,16 +123,16 @@ public abstract class BaseAction {
         return unit;
     }
 
-    public EnemyAIAction GetBestEnemyAIAction(){
+    public EnemyAIAction GetBestEnemyAIAction() {
         List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
 
         List<GridPosition> validActionGridPositionList = GetActionGridPositionRangeList();
-        foreach(GridPosition gridPosition in validActionGridPositionList){
-            if(!IsValidActionGridPosition(gridPosition)) continue;
+        foreach (GridPosition gridPosition in validActionGridPositionList) {
+            if (!IsValidActionGridPosition(gridPosition)) continue;
             EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition);
             enemyAIActionList.Add(enemyAIAction);
         }
-        if(enemyAIActionList.Count > 0) {
+        if (enemyAIActionList.Count > 0) {
             enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue);
             return enemyAIActionList[0];
         }

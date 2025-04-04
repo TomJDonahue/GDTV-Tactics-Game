@@ -12,13 +12,13 @@ public class ScreenShake : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
 
         cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
 
-    public void Shake(float intensity = 1f){
+    public void Shake(float intensity = 1f) {
         cinemachineImpulseSource.GenerateImpulse(intensity);
     }
 }

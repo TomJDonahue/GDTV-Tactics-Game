@@ -11,7 +11,7 @@ public class ActionBusyUI : MonoBehaviour {
     }
 
     private void UnitActionManager_OnBusyChanged(object sender, bool isBusy) {
-        if(isBusy) {
+        if (isBusy) {
             Show();
         } else {
             Hide();

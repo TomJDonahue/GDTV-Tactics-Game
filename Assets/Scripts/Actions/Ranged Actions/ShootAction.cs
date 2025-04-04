@@ -25,11 +25,11 @@ public class ShootAction : BaseAction {
     private bool canShootBullet;
 
     public override void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
-        
-        switch(state) {
+
+        switch (state) {
             case State.Aiming:
                 float rotateSpeed = 10f;
                 Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
@@ -45,41 +45,41 @@ public class ShootAction : BaseAction {
                 break;
         }
 
-        if (stateTimer <=0f) {
-            NextState();    
+        if (stateTimer <= 0f) {
+            NextState();
         }
     }
 
-    private void Shoot(){
-        OnAnyShoot?.Invoke(this, new OnShootEventArgs{
+    private void Shoot() {
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs {
             targetUnit = targetUnit,
             shootingUnit = unit,
         });
-        OnShoot?.Invoke(this, new OnShootEventArgs{
+        OnShoot?.Invoke(this, new OnShootEventArgs {
             targetUnit = targetUnit,
             shootingUnit = unit,
         });
         targetUnit.ProcessHealthChange(GetDamageAmount());
     }
 
-    private void NextState(){
-        switch(state) {
+    private void NextState() {
+        switch (state) {
             case State.Aiming:
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     state = State.Shooting;
                     float shootingStateTime = .1f;
                     stateTimer = shootingStateTime;
                 }
                 break;
             case State.Shooting:
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     state = State.Cooloff;
                     float cooloffStateTime = .5f;
                     stateTimer = cooloffStateTime;
                 }
                 break;
             case State.Cooloff:
-                if (stateTimer <=0f) {
+                if (stateTimer <= 0f) {
                     ActionComplete();
                 }
                 break;
@@ -87,26 +87,25 @@ public class ShootAction : BaseAction {
     }
 
 
-    public override bool IsValidActionGridPosition(GridPosition gridPosition)
-    {
+    public override bool IsValidActionGridPosition(GridPosition gridPosition) {
         List<GridPosition> validGridPositionList = GetActionGridPositionRangeList();
 
-        if(!LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) return false;
+        if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) return false;
 
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        if(targetUnit.IsEnemy() == unit.IsEnemy()) return false;
+        if (targetUnit.IsEnemy() == unit.IsEnemy()) return false;
 
         Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unit.GetGridPosition());
         Vector3 shootDirection = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
         float unitShoulderHeight = 1.7f;
-        if(Physics.Raycast(
-            unitWorldPosition + Vector3.up * unitShoulderHeight,shootDirection, 
-            Vector3.Distance(unitWorldPosition, 
-            targetUnit.GetWorldPosition()), 
+        if (Physics.Raycast(
+            unitWorldPosition + Vector3.up * unitShoulderHeight, shootDirection,
+            Vector3.Distance(unitWorldPosition,
+            targetUnit.GetWorldPosition()),
             obstaclesLayerMask)) {
-                return false;
-            }
+            return false;
+        }
 
         return validGridPositionList.Contains(gridPosition);
     }
@@ -119,15 +118,15 @@ public class ShootAction : BaseAction {
         int maxShootDistance = actionDataSO.GetMaxRange();
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        for (int x = -maxShootDistance; x <=maxShootDistance; x++) {
-            for(int z = -maxShootDistance; z <= maxShootDistance; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x,z);
+        for (int x = -maxShootDistance; x <= maxShootDistance; x++) {
+            for (int z = -maxShootDistance; z <= maxShootDistance; z++) {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if(testDistance > maxShootDistance) continue;
+                if (testDistance > maxShootDistance) continue;
 
                 // if(!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
 
@@ -159,7 +158,7 @@ public class ShootAction : BaseAction {
         float aimingStateTime = 1f;
         stateTimer = aimingStateTime;
         canShootBullet = true;
-        
+
         ActionStart(onActionComplete);
     }
 
@@ -167,7 +166,7 @@ public class ShootAction : BaseAction {
         return targetUnit;
     }
 
-    public int GetMaxShootDistance(){
+    public int GetMaxShootDistance() {
         return actionDataSO.GetMaxRange();
     }
 
@@ -175,14 +174,14 @@ public class ShootAction : BaseAction {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         return new EnemyAIAction {
             gridPosition = gridPosition,
-            actionValue = Mathf.RoundToInt(100 + (1- targetUnit.GetHealthNormalized()) * 100f),
+            actionValue = Mathf.RoundToInt(100 + (1 - targetUnit.GetHealthNormalized()) * 100f),
         };
     }
 
     public int GetTargetCountAtPosition(GridPosition gridPosition) {
         List<GridPosition> gridPositionList = new List<GridPosition>();
-        foreach(GridPosition position in GetActionGridPositionRangeList(gridPosition)) {
-            if(IsValidActionGridPosition(position)) gridPositionList.Add(position);
+        foreach (GridPosition position in GetActionGridPositionRangeList(gridPosition)) {
+            if (IsValidActionGridPosition(position)) gridPositionList.Add(position);
         }
         return gridPositionList.Count;
     }

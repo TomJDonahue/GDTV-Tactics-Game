@@ -18,21 +18,21 @@ public class PopupNumber : MonoBehaviour {
 
     public void Setup(int amount) {
         textMesh.text = amount.ToString();
-        
+
         textColor = textMesh.color;
-        if(amount < 0) textColor = healColor;
-        if(amount > 0) textColor = damageColor;
+        if (amount < 0) textColor = healColor;
+        if (amount > 0) textColor = damageColor;
         textMesh.color = textColor;
-        
+
         disappearTimer = .2f;
     }
 
     void Update() {
         float moveYSpeed = 2f;
-        transform.position += new Vector3(0,moveYSpeed, 0) * Time.deltaTime;
+        transform.position += new Vector3(0, moveYSpeed, 0) * Time.deltaTime;
 
         disappearTimer -= Time.deltaTime;
-        if(disappearTimer < 0) {
+        if (disappearTimer < 0) {
             float disappearSpeed = 3f;
             textColor.a -= disappearSpeed * Time.deltaTime;
             textMesh.color = textColor;

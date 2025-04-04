@@ -25,7 +25,7 @@ public class UnitWorldUI : MonoBehaviour {
     }
 
     private void DisplayHealthNumbers(int amount) {
-        PopupNumber popupNumber = Instantiate(healthNumberTextPrefab,healthNumberTextTransform.position, quaternion.identity);
+        PopupNumber popupNumber = Instantiate(healthNumberTextPrefab, healthNumberTextTransform.position, quaternion.identity);
         popupNumber.Setup(amount);
     }
 }

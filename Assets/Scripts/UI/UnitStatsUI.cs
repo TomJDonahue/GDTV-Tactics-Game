@@ -32,14 +32,14 @@ public class UnitStatsUI : MonoBehaviour {
         UpdateAllUI();
     }
 
-    private void ActionResourceSystem_OnAnyResourceChanged(object sender, EventArgs e){
+    private void ActionResourceSystem_OnAnyResourceChanged(object sender, EventArgs e) {
         UpdateAllUI();
     }
 
-    private void StaminaSystem_OnAnyStaminaChanged(object sender, EventArgs e){
+    private void StaminaSystem_OnAnyStaminaChanged(object sender, EventArgs e) {
         UpdateAllUI();
     }
-  
+
 
     // private void UnitActionManager_OnSelectedUnitChanged(object sender, EventArgs e) {
     //     UnitActionManager unitActionManager = sender as UnitActionManager;
@@ -53,7 +53,7 @@ public class UnitStatsUI : MonoBehaviour {
     }
 
     private void UpdateAllUI() {
-        if(TurnManager.Instance.GetCurrentTurnUnit()) {
+        if (TurnManager.Instance.GetCurrentTurnUnit()) {
             unitName.text = currentTurnUnit.name.ToString();
             UpdateUnitImage();
             UpdateHealth();

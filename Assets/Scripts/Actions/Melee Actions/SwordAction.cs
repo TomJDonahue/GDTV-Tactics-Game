@@ -20,11 +20,11 @@ public class SwordAction : BaseAction {
     private Unit targetUnit;
 
     public override void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
-        
-        switch(state) {
+
+        switch (state) {
             case State.SwingingSwordBeforeHit:
                 float rotateSpeed = 10f;
                 Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
@@ -34,13 +34,13 @@ public class SwordAction : BaseAction {
                 break;
         }
 
-        if (stateTimer <=0f) {
-            NextState();    
+        if (stateTimer <= 0f) {
+            NextState();
         }
     }
 
-    private void NextState(){
-        switch(state) {
+    private void NextState() {
+        switch (state) {
             case State.SwingingSwordBeforeHit:
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = .5f;
@@ -57,20 +57,19 @@ public class SwordAction : BaseAction {
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
-        return new EnemyAIAction{
+        return new EnemyAIAction {
             gridPosition = gridPosition,
             actionValue = 200,
         };
     }
 
-    public override bool IsValidActionGridPosition(GridPosition gridPosition)
-    {
+    public override bool IsValidActionGridPosition(GridPosition gridPosition) {
         List<GridPosition> validGridPositionList = GetActionGridPositionRangeList();
         if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) return false;
 
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        if(targetUnit.IsEnemy() == unit.IsEnemy()) return false;
+        if (targetUnit.IsEnemy() == unit.IsEnemy()) return false;
         return validGridPositionList.Contains(gridPosition);
     }
 
@@ -79,9 +78,9 @@ public class SwordAction : BaseAction {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
 
-        for (int x = -maxSwordDistance; x <=maxSwordDistance; x++) {
-            for(int z = -maxSwordDistance; z <= maxSwordDistance; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x,z);
+        for (int x = -maxSwordDistance; x <= maxSwordDistance; x++) {
+            for (int z = -maxSwordDistance; z <= maxSwordDistance; z++) {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;

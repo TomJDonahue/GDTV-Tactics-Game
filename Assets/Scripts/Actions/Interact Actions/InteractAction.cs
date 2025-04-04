@@ -8,9 +8,9 @@ public class InteractAction : BaseAction {
     public InteractAction(Unit unit, ActionDataSO actionDataSO) : base(unit, actionDataSO) {
 
     }
-    
+
     public override void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
     }
 
@@ -26,9 +26,9 @@ public class InteractAction : BaseAction {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
 
-        for (int x = -maxInteractDistance; x <=maxInteractDistance; x++) {
-            for(int z = -maxInteractDistance; z <= maxInteractDistance; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x,z);
+        for (int x = -maxInteractDistance; x <= maxInteractDistance; x++) {
+            for (int z = -maxInteractDistance; z <= maxInteractDistance; z++) {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
@@ -49,7 +49,7 @@ public class InteractAction : BaseAction {
     }
 
 
-    private void OnInteractComplete(){
+    private void OnInteractComplete() {
         ActionComplete();
     }
 }

@@ -19,7 +19,7 @@ public class BulletProjectile : MonoBehaviour {
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         float sqrMagnitudeAfterMoving = (transform.position - targetPosition).sqrMagnitude;
 
-        if(sqrMagnitudeBeforeMoving < sqrMagnitudeAfterMoving) {
+        if (sqrMagnitudeBeforeMoving < sqrMagnitudeAfterMoving) {
             transform.position = targetPosition;
             trailRenderer.transform.parent = null;
             Destroy(gameObject);

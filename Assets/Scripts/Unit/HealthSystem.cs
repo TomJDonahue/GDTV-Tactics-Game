@@ -20,24 +20,24 @@ public class HealthSystem : MonoBehaviour {
 
     public void ProcessHealthChange(int healthChangeAmount) {
         health -= healthChangeAmount;
-        if(health < 0) {
+        if (health < 0) {
             health = 0;
         }
-        if(health > healthMax) {
+        if (health > healthMax) {
             health = healthMax;
         }
-        OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs{
+        OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs {
             changeAmount = healthChangeAmount
         });
-        OnAnyHealthChanged?.Invoke(this,EventArgs.Empty);
-        
+        OnAnyHealthChanged?.Invoke(this, EventArgs.Empty);
+
         if (health == 0) {
             Die();
         }
     }
 
     private void Die() {
-        OnDead?.Invoke(this,EventArgs.Empty);
+        OnDead?.Invoke(this, EventArgs.Empty);
     }
 
     public float GetHealthNormalized() {

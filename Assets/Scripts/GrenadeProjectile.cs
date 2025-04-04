@@ -28,11 +28,11 @@ public class GrenadeProjectile : MonoBehaviour {
         if (Vector3.Distance(posXZ, targetPosition) < reachedTargetDistance) {
             float damageRadius = 4f;
             Collider[] colliderArray = Physics.OverlapSphere(targetPosition, damageRadius);
-            foreach (Collider col in colliderArray){
-                if(col.TryGetComponent<Unit>(out Unit targetUnit)){
+            foreach (Collider col in colliderArray) {
+                if (col.TryGetComponent<Unit>(out Unit targetUnit)) {
                     targetUnit.ProcessHealthChange(30);
                 }
-                if(col.TryGetComponent<DestructibleCrate>(out DestructibleCrate crate)) {
+                if (col.TryGetComponent<DestructibleCrate>(out DestructibleCrate crate)) {
                     crate.Damage();
                 }
             }
@@ -44,7 +44,7 @@ public class GrenadeProjectile : MonoBehaviour {
             onGrenadeBehaviorComplete();
         }
     }
-    public void Setup(GridPosition targetGridPosition, Action onGrenadeBehaviorComplete){
+    public void Setup(GridPosition targetGridPosition, Action onGrenadeBehaviorComplete) {
         this.onGrenadeBehaviorComplete = onGrenadeBehaviorComplete;
         targetPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
         posXZ = transform.position;

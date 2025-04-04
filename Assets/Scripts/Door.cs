@@ -20,17 +20,17 @@ public class Door : MonoBehaviour, IInteractible {
         LevelGrid.Instance.SetInteractibleAtGridPosition(gridPosition, this);
 
         animator.speed = 100;
-        if(isOpen){
+        if (isOpen) {
             OpenDoor();
         } else {
             CloseDoor();
         }
     }
     private void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
         timer -= Time.deltaTime;
-        if (timer <=0f ){
+        if (timer <= 0f) {
             isActive = false;
             onInteractComplete();
         }
@@ -40,22 +40,22 @@ public class Door : MonoBehaviour, IInteractible {
         this.onInteractComplete = onInteractComplete;
         isActive = true;
         timer = 1f;
-        if(isOpen){
+        if (isOpen) {
             CloseDoor();
         } else {
             OpenDoor();
         }
     }
 
-    private void OpenDoor(){
+    private void OpenDoor() {
         isOpen = true;
-        animator.SetBool("isOpen",true);
+        animator.SetBool("isOpen", true);
         Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, true);
     }
 
     private void CloseDoor() {
         isOpen = false;
-        animator.SetBool("isOpen",false);
+        animator.SetBool("isOpen", false);
         Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, false);
     }
 }

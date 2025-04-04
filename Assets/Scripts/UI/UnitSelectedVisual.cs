@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitSelectedVisual : MonoBehaviour
-{
+public class UnitSelectedVisual : MonoBehaviour {
     [SerializeField] private Unit unit;
 
     private MeshRenderer meshRenderer;
@@ -23,7 +22,7 @@ public class UnitSelectedVisual : MonoBehaviour
     }
 
     private void UpdateUnitVisual() {
-        if(TurnManager.Instance.GetCurrentTurnUnit() == unit) {
+        if (TurnManager.Instance.GetCurrentTurnUnit() == unit) {
             meshRenderer.enabled = true;
         } else {
             meshRenderer.enabled = false;

@@ -25,7 +25,7 @@ public abstract class ActionResourceSystem : MonoBehaviour {
 
     public abstract void ProcessActionResource(int resourceAmount);
 
-    protected void ProcessComplete(){
-        OnAnyResourceChanged?.Invoke(this,EventArgs.Empty);
+    protected void ProcessComplete() {
+        OnAnyResourceChanged?.Invoke(this, EventArgs.Empty);
     }
 }

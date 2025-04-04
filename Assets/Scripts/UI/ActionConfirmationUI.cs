@@ -21,7 +21,7 @@ public class ActionConfirmationUI : MonoBehaviour {
         confirmButton.onClick.AddListener(() => {
             UnitActionManager.Instance.TakeAction();
         });
-        declineButton.onClick.AddListener(() =>{
+        declineButton.onClick.AddListener(() => {
             UnitActionManager.Instance.DeclineAction();
         });
         gameObject.SetActive(false);
@@ -29,13 +29,13 @@ public class ActionConfirmationUI : MonoBehaviour {
 
     private void UnitActionManager_OnActionChosen(object sender, UnitActionManager.OnActionChosenEventArgs e) {
         gameObject.SetActive(!this.isActiveAndEnabled);
-        if(e.action is MoveAction) {
+        if (e.action is MoveAction) {
             actionConfirmText.text = "Move here?";
             accuracyChance.text = "";
             damagePrediction.text = "";
             return;
         }
-        if(e.action is WaitAction) {
+        if (e.action is WaitAction) {
             actionConfirmText.text = $"End {e.unit.name}'s turn?";
             accuracyChance.text = "";
             damagePrediction.text = "";

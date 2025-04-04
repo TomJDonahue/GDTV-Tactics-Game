@@ -24,7 +24,7 @@ public class CameraManager : MonoBehaviour {
     }
 
     private void BaseAction_OnAnyActionStarted(object sender, EventArgs e) {
-        switch(sender) {
+        switch (sender) {
             case ShootAction shootAction:
                 Unit shooterUnit = shootAction.GetUnit();
                 Unit targetUnit = shootAction.GetTargetUnit();
@@ -33,7 +33,7 @@ public class CameraManager : MonoBehaviour {
                 Vector3 shootDir = (targetUnit.GetWorldPosition() - shooterUnit.GetWorldPosition()).normalized;
 
                 float shoulderOffsetAmount = .5f;
-                Vector3 shoulderOffset = Quaternion.Euler(0,90,0) * shootDir * shoulderOffsetAmount;
+                Vector3 shoulderOffset = Quaternion.Euler(0, 90, 0) * shootDir * shoulderOffsetAmount;
 
                 Vector3 actionCameraPosition = shooterUnit.GetWorldPosition() + cameraCharacterHeight + shoulderOffset + (shootDir * -1);
 
@@ -45,7 +45,7 @@ public class CameraManager : MonoBehaviour {
     }
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e) {
-        switch(sender) {
+        switch (sender) {
             case ShootAction shootAction:
                 HideActionCamera();
                 break;

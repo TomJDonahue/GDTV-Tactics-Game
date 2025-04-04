@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathfindingUpdater : MonoBehaviour {
-    void Start(){
+    void Start() {
         DestructibleCrate.OnAnyDestroyed += DestructibleCrate_OnAnyDestroyed;
     }
 

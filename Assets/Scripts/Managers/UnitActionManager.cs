@@ -37,7 +37,7 @@ public class UnitActionManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
     }
     private void Start() {
         //SetSelectedUnit(selectedUnit);
@@ -46,26 +46,26 @@ public class UnitActionManager : MonoBehaviour {
         BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
     }
     private void Update() {
-        if(isBusy) return;
-        if(!TurnManager.Instance.IsPlayerTurn()) return;
-        if(currentTurnUnit.GetIsRouting()) return;
-        if(EventSystem.current.IsPointerOverGameObject()) return;
+        if (isBusy) return;
+        if (!TurnManager.Instance.IsPlayerTurn()) return;
+        if (currentTurnUnit.GetIsRouting()) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         // if(TryHandleUnitSelection()) return;
-        if(selectedAction != null) HandleSelectedAction();
+        if (selectedAction != null) HandleSelectedAction();
     }
 
     private void HandleSelectedAction() {
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-        if(mouseGridPosition != selectedGridPosition) {
+        if (mouseGridPosition != selectedGridPosition) {
             selectedGridPosition = mouseGridPosition;
-            OnSelectedGridPositionChanged?.Invoke(this, new OnSelectedGridPositionChangedEventArgs{
+            OnSelectedGridPositionChanged?.Invoke(this, new OnSelectedGridPositionChangedEventArgs {
                 gridPosition = selectedGridPosition
-        });
+            });
         }
-        if(InputManager.Instance.IsMouseButtonDownThisFrame()){
-            if(!selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
-            if(!currentTurnUnit.CanSpendActionPointsToTakeAction(selectedAction)) return;
+        if (InputManager.Instance.IsMouseButtonDownThisFrame()) {
+            if (!selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
+            if (!currentTurnUnit.CanSpendActionPointsToTakeAction(selectedAction)) return;
             OnActionChosen?.Invoke(this, new OnActionChosenEventArgs {
                 gridPosition = selectedGridPosition,
                 unit = currentTurnUnit,
@@ -77,9 +77,9 @@ public class UnitActionManager : MonoBehaviour {
     }
 
     //Called by the Confirmation button on the ActionConfirmationUI
-    public void TakeAction(){
+    public void TakeAction() {
         OnActionStarted?.Invoke(this, EventArgs.Empty);
-        currentTurnUnit.TakeAction(selectedAction,mouseGridPosition,ClearBusy);
+        currentTurnUnit.TakeAction(selectedAction, mouseGridPosition, ClearBusy);
     }
 
     //Called by the Decline button on the ActionConfirmationUI
@@ -102,13 +102,13 @@ public class UnitActionManager : MonoBehaviour {
     }
 
     private bool TryHandleUnitSelection() {
-        if(InputManager.Instance.IsMouseButtonDownThisFrame()) {
+        if (InputManager.Instance.IsMouseButtonDownThisFrame()) {
             Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
-            if(Physics.Raycast(ray, out RaycastHit raycastHit,float.MaxValue,unitLayerMask)) {
-                if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit)) {
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask)) {
+                if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit)) {
                     if (unit == currentTurnUnit) return false;
                     if (unit.IsEnemy()) return false;
-                    
+
                     SetSelectedUnit(unit);
                     return true;
                 }
@@ -117,11 +117,11 @@ public class UnitActionManager : MonoBehaviour {
         return false;
     }
 
-    private void SetSelectedUnit (Unit unit) {
+    private void SetSelectedUnit(Unit unit) {
         clickedOnUnit = unit;
         //SetSelectedAction(unit.GetMoveAction());
 
-        OnSelectedUnitChanged?.Invoke(this,EventArgs.Empty);
+        OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void SetCurrentTurnUnit(Unit unit) {
@@ -136,7 +136,7 @@ public class UnitActionManager : MonoBehaviour {
     public void SetSelectedAction(BaseAction baseAction) {
         if (!currentTurnUnit.CanSpendActionPointsToTakeAction(baseAction)) return;
         selectedAction = baseAction;
-        OnSelectedActionChanged?.Invoke(this,EventArgs.Empty);
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     //TODO: Commenting this out to see what else in the project relies on the selectedUnit.
@@ -154,11 +154,11 @@ public class UnitActionManager : MonoBehaviour {
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e) {
         foreach (BaseAction action in currentTurnUnit.GetBaseActionArray()) {
-            if (currentTurnUnit.CanSpendActionPointsToTakeAction(action)){
+            if (currentTurnUnit.CanSpendActionPointsToTakeAction(action)) {
                 SetSelectedAction(action);
                 return;
             }
         }
     }
-    
+
 }

@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        Instance  = this;
+        Instance = this;
 
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();

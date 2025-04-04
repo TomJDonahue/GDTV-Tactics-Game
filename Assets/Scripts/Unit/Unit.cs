@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour {
     private StaminaSystem staminaSystem;
     private ResolveSystem resolveSystem;
     private UnitStatSO unitStats;
-    
+
 
     private void Awake() {
         healthSystem = GetComponent<HealthSystem>();
@@ -34,7 +34,7 @@ public class Unit : MonoBehaviour {
         resolveSystem = GetComponent<ResolveSystem>();
         unitActionSystem = GetComponent<UnitActionSystem>();
     }
-    
+
     private void Start() {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
@@ -47,7 +47,7 @@ public class Unit : MonoBehaviour {
     private void Update() {
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
-        if(newGridPosition != gridPosition) {
+        if (newGridPosition != gridPosition) {
             GridPosition oldGridPosition = gridPosition;
             gridPosition = newGridPosition;
             LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
@@ -87,7 +87,7 @@ public class Unit : MonoBehaviour {
     }
 
     public bool CanSpendActionPointsToTakeAction(BaseAction baseAction) {
-        if(isRouting && baseAction is not MoveAction) return false;
+        if (isRouting && baseAction is not MoveAction) return false;
         return resourceSystem.HasSufficientResource(baseAction.GetActionResourceCost()) &&
             unitActionSystem.HasSufficientActionPoints(baseAction);
     }
@@ -109,7 +109,7 @@ public class Unit : MonoBehaviour {
     }
 
     private void HealthSystem_OnDead(object sender, EventArgs e) {
-        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition,this);
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         Destroy(gameObject);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
@@ -159,14 +159,14 @@ public class Unit : MonoBehaviour {
         return isEnemy;
     }
 
-    public Sprite GetBackgroundImage(){
+    public Sprite GetBackgroundImage() {
         return backgroundImage;
     }
-    
+
     public Sprite GetForegroundImage() {
         return uiImage;
     }
-    
+
     public void ProcessResoureChange(int resourceCost) {
         resourceSystem.ProcessActionResource(resourceCost);
     }

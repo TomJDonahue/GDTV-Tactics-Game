@@ -13,7 +13,7 @@ public class ManaSystem : ActionResourceSystem {
 
     public override void ProcessActionResource(int resourceAmount) {
         resource -= resourceAmount;
-        if(resource < 0) {
+        if (resource < 0) {
             resource = 0;
         }
         ProcessComplete();

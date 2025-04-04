@@ -12,7 +12,7 @@ public class DestroyObjTimer : MonoBehaviour {
 
     private void Update() {
         timerMax -= Time.deltaTime;
-        if(timerMax <= 0) {
+        if (timerMax <= 0) {
             Destroy(gameObject);
         }
     }

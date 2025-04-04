@@ -12,12 +12,12 @@ public class ActionDataSO : ScriptableObject {
     [Header("Ability Use Data")]
     [SerializeField] int actionResourceCost;
     [SerializeField] int actionStaminaCost;
-    [Range(-100,100)]
+    [Range(-100, 100)]
     [SerializeField] int actionResolveCost;
     [SerializeField] int actionBaseDamage;
     [SerializeField] int actionBasePercentageBonusDamage;
     [SerializeField] UnitStat unitStatScalingAttribute;
-    
+
 
     [Header("Ability Effect Data")]
     [SerializeField] int maxRange;

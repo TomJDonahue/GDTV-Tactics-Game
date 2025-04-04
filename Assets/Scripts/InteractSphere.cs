@@ -20,16 +20,16 @@ public class InteractSphere : MonoBehaviour, IInteractible {
     }
 
     private void Update() {
-        if(!isActive) return;
+        if (!isActive) return;
 
         timer -= Time.deltaTime;
-        if (timer <=0f ){
+        if (timer <= 0f) {
             isActive = false;
             onInteractComplete();
         }
     }
 
-    private void SetColorGreen(){
+    private void SetColorGreen() {
         isGreen = true;
         meshRenderer.material = greenMaterial;
     }
@@ -39,12 +39,11 @@ public class InteractSphere : MonoBehaviour, IInteractible {
         meshRenderer.material = redMaterial;
     }
 
-    public void Interact(Action onInteractComplete)
-    {
+    public void Interact(Action onInteractComplete) {
         this.onInteractComplete = onInteractComplete;
         isActive = true;
         timer = .5f;
-        if(isGreen) {
+        if (isGreen) {
             SetColorRed();
         } else {
             SetColorGreen();

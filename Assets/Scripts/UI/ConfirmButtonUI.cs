@@ -11,7 +11,7 @@ public class ConfirmButtonUI : MonoBehaviour {
 
     public void Start() {
         button.onClick.AddListener(() => {
-            
+
         });
     }
 

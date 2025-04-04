@@ -7,5 +7,5 @@ public enum EffectShape {
     Circle,
     Cross,
     Single,
-    
+
 }

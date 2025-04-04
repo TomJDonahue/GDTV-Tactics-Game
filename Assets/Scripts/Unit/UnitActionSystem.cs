@@ -12,7 +12,7 @@ public class UnitActionSystem : MonoBehaviour {
     [SerializeField] private ActionDataSO[] specialActionSOArray;
     [SerializeField] private ActionDataSO interactActionSO;
     [SerializeField] private ActionDataSO waitActionSO;
-    
+
     private Unit unit;
     private int actionActionPoints;
     private int movementActionPoints;
@@ -23,10 +23,10 @@ public class UnitActionSystem : MonoBehaviour {
     private BaseAction[] specialActionArray;
     private BaseAction interactAction;
     private BaseAction waitAction;
-    
+
     private BaseAction[] baseActionArray;
     private BaseAction currentAction;
-    
+
     //FIXME: this is a bandaid because of the EnemyAI. Need to remove reliance on ShootAction
     private BaseAction shootAction;
     [SerializeField] ActionDataSO shootActionSO;
@@ -36,7 +36,7 @@ public class UnitActionSystem : MonoBehaviour {
         actionActionPoints = actionActionPointsMax;
         movementActionPoints = movementActionPointsMax;
         InitializeActions();
-        shootAction = AbilityFactory.CreateAbility(unit,shootActionSO);
+        shootAction = AbilityFactory.CreateAbility(unit, shootActionSO);
     }
 
     private void Start() {
@@ -44,15 +44,15 @@ public class UnitActionSystem : MonoBehaviour {
     }
 
     private void Update() {
-        if(currentAction == null) return;
-        if(!currentAction.GetIsActive()) return;
+        if (currentAction == null) return;
+        if (!currentAction.GetIsActive()) return;
         currentAction.Update();
     }
 
     public bool HasSufficientActionPoints(BaseAction baseAction) {
         int actionPoints;
 
-        if (baseAction is MoveAction){
+        if (baseAction is MoveAction) {
             actionPoints = movementActionPoints;
         } else if (baseAction is WaitAction) {
             return true;
@@ -69,14 +69,14 @@ public class UnitActionSystem : MonoBehaviour {
     }
 
     private void InitializeActions() {
-        moveAction = AbilityFactory.CreateAbility(unit,moveActionSO);
-        attackAction = AbilityFactory.CreateAbility(unit,attackActionSO);
+        moveAction = AbilityFactory.CreateAbility(unit, moveActionSO);
+        attackAction = AbilityFactory.CreateAbility(unit, attackActionSO);
         specialActionArray = new BaseAction[specialActionSOArray.Length];
         for (int i = 0; i < specialActionArray.Length; i++) {
-            specialActionArray[i] = AbilityFactory.CreateAbility(unit,specialActionSOArray[i]);
+            specialActionArray[i] = AbilityFactory.CreateAbility(unit, specialActionSOArray[i]);
         }
-        interactAction = AbilityFactory.CreateAbility(unit,interactActionSO);
-        waitAction = AbilityFactory.CreateAbility(unit,waitActionSO);
+        interactAction = AbilityFactory.CreateAbility(unit, interactActionSO);
+        waitAction = AbilityFactory.CreateAbility(unit, waitActionSO);
         InitializeArrays();
     }
     private void InitializeArrays() {
@@ -88,7 +88,7 @@ public class UnitActionSystem : MonoBehaviour {
         List<ActionDataSO> baseActionSOList = new List<ActionDataSO>();
         baseActionSOList.Add(moveActionSO);
         baseActionSOList.Add(attackActionSO);
-        foreach(ActionDataSO actionSO in specialActionSOArray) {
+        foreach (ActionDataSO actionSO in specialActionSOArray) {
             baseActionSOList.Add(actionSO);
         }
         baseActionSOList.Add(waitActionSO);
@@ -99,7 +99,7 @@ public class UnitActionSystem : MonoBehaviour {
         List<BaseAction> baseActionList = new List<BaseAction>();
         baseActionList.Add(moveAction);
         baseActionList.Add(attackAction);
-        foreach(BaseAction action in specialActionArray) {
+        foreach (BaseAction action in specialActionArray) {
             baseActionList.Add(action);
         }
         baseActionList.Add(waitAction);
@@ -112,7 +112,7 @@ public class UnitActionSystem : MonoBehaviour {
 
     public ActionDataSO[] GetSpecialActionSOArray() {
         return specialActionSOArray;
-    } 
+    }
 
     public ActionDataSO GetMoveActionSO() {
         return moveActionSO;
@@ -136,7 +136,7 @@ public class UnitActionSystem : MonoBehaviour {
 
     public BaseAction[] GetSpecialActionArray() {
         return specialActionArray;
-    } 
+    }
 
     public BaseAction GetMoveAction() {
         return moveAction;
@@ -145,7 +145,7 @@ public class UnitActionSystem : MonoBehaviour {
     public BaseAction GetAttackAction() {
         return attackAction;
     }
-    
+
     //FIXME: this is a bandaid because of the EnemyAI. Need to remove reliance on ShootAction
     public BaseAction GetShootAction() {
         return shootAction;
@@ -160,24 +160,24 @@ public class UnitActionSystem : MonoBehaviour {
     }
 
     public void ProcessActionPoints(BaseAction currentAction, int actionPoints) {
-        if(currentAction is WaitAction) {
+        if (currentAction is WaitAction) {
             currentAction = null;
             return;
         }
 
-        if(currentAction is MoveAction){
-            movementActionPoints-=actionPoints;
+        if (currentAction is MoveAction) {
+            movementActionPoints -= actionPoints;
         } else {
-            actionActionPoints-=actionPoints;
+            actionActionPoints -= actionPoints;
         }
     }
 
     //TODO: Should we do this or should I send events back up to the unit?
-    public void ProcessResolveCost(int resolveCost){
+    public void ProcessResolveCost(int resolveCost) {
         unit.ProcessResolveChange(resolveCost);
     }
 
-    public void ProcessStaminaCost(int staminaCost){
+    public void ProcessStaminaCost(int staminaCost) {
         unit.ProcessStaminaChange(staminaCost);
     }
 
